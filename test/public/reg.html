@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <link href="css/zhuce.css" rel="stylesheet" type="text/css">
+    <link href="css/public.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<div class="center">
+    <div class="header clearFloat">
+        <img src="images/login/logo2.png" alt=""/>
+        <p >欢迎注册</p>
+    </div>
+    <div class="p1 ">
+        <div class="login1">
+            <div class="form1 clearFloat">
+                <form action="/user/reg" id="myform" method="post" onsubmit="return checkFields(this)">
+                    <div class="top1">
+                        <a href="" class="a1">新用户注册</a>
+                        <a href="login.html" class="a2">直接登录</a>
+                    </div>
+                    <div class="input1">
+                        <p>　用户名：<input type="text" id="txtName" placeholder="请输入用户名" name="uname"/> <div class="button2">用户名长度在6到9位之间</div></p>
+                        <p>登录密码：<input type="password" id="txtPwd1" placeholder="请输入密码" name="upwd"/></p>
+                        <p>确认密码：<input type="password" id="txtPwd2" placeholder="请再次输入密码" /></p>
+                        <p>　　邮箱：<input type="email" id="txtEmail" placeholder="请输入邮箱" name="email"/></p>
+                        <p>　手机号：<input type="tel" id="txtTel" placeholder="请输入手机号" name="phone"/></p>
+
+                    </div>
+                    <input type="submit" value="提交注册信息表" class="button1"/>
+                </form>
+                <script type="text/javascript" src="js/bdyz.js">
+
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
