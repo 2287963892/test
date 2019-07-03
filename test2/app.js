@@ -8,4 +8,4 @@ app.use(bodyParse.urlencoded({
   extended:false  //不使用拓展的（第三方）
 }));
 app.use(express.static('./public'));
-app.use('/user',userRouter);
+app.use('/user',userRouter);//每天起床拉一下！！！
