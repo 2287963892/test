@@ -10,13 +10,61 @@
         background-color:pink;
     }
   </style>
+<script>
+	function getAjax(){
+	var $count=count.value;
+  var $pno=pno.value;
+  var xhr=new XMLHttpRequest();
+	xhr.onreadystatechange=function(){
+	if(xhr.readyState==4 && xhr.status==200){
+	var result=xhr.responseText;	
+  result=JSON.parse(result);
+	var html="";
+for (var i=0;i<result.length ;i++ )
+{
+			html+=`	<tr>
+		<td>${result[i].uid}</td>
+		<td>${result[i].uname}</td>
+		<td>${result[i].upwd}</td>
+		<td>${result[i].email}</td>
+		<td>${result[i].phone}</td>
+		<td>${result[i].avatar}</td>
+		<td>${result[i].user_name}</td>
+		<td>${result[i].gender}</td>
+	</tr>`;
+		}
+		content.innerHTML=html;
+	}
+}
+	xhr.open("get",`/user/list?count=${$count}&pno=${$pno}`,true);
+	xhr.send(null);
+
+
+
+}
+</script>
 </head>
 <body>
   <div class="box">
-  <form action="/user/list" method="GET">
-  大小：<input type="text" name="count"><br>
-  页码：<input type="text" name="pno"><br>
-  <input type="submit">
+  大小：<input type="text" id="count"><br>
+  页码：<input type="text" id="pno"><br>
+  <button onclick="getAjax()">ajax</button>
+	<div id="d1">
+
+	<table border="1px" cellspacing="0">
+		<tr>
+			<th>uid</th>
+			<th>uname</th>
+			<th>upwd</th>
+			<th>email</th>
+			<th>phone</th>
+			<th>avatar</th>
+			<th>user_name</th>
+			<th>gender</th>
+		</tr>
+		<tbody id="content"></tbody>
+	</table>
+ </div>
 </form>
 </div>
 </body>

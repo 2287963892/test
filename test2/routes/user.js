@@ -2,8 +2,8 @@ const express=require('express');
 const pool=require('./pool.js');
 var router=express.Router();
 //login
-router.post('/login',(req,res)=>{
-  var obj=req.body;
+router.get('/login/:uname&:upwd',(req,res)=>{
+  var obj=req.praams;
   for(var key in obj){
     if(!obj[key]){
       res.send({code:401,msg:key+' '+'required'});
