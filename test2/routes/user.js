@@ -24,52 +24,36 @@ router.get('/login/:uname&:upwd',(req,res)=>{
 //reg
 router.post('/reg',(req,res)=>{
   var obj=req.body;
-  for(var key in obj){
-    if(!obj[key]){
-      res.send({code:401,msg:key+' '+'required'});
-      return;
-    };
-  };
   pool.query('insert into xz_user set ?',[obj],(err,result)=>{
     if(err)throw err;
     if(result.affectedRows>0){
-      res.send({code:200,msg:'reg suc'});
+      res.send("1");
       return;
     }else{
-      res.send({code:401,msg:'reg err'});
+      res.send("0");
       return;
     };
   });
 });
 //检索
-router.get('/detail',(req,res)=>{
-  if(!req.query.uid){
-    res.send({code:401,msg:'uid required'});
-    return;
-  };
-  pool.query('select * from xz_user where uid=?',[req.query.uid],(err,result)=>{
+router.get('/detail/:uname',(req,res)=>{
+  pool.query('select * from xz_user where uname=?',[req.params.uname],(err,result)=>{
     if(err)throw err;
-    res.send(result);
+    if(result.length>0){res.send("1")}else{res.send("0")}  
   });
 });
 //update
-router.post('/update',(req,res)=>{
+router.put("/v1/updateuser",(req,res)=>{
   var obj=req.body;
-  for(var key in obj){
-    if(!obj[key]){
-      res.send({code:401,msg:key+' '+'required'});
-      return;
-    };
-  };
   var uid=obj.uid;
   delete obj.uid;
   pool.query('update xz_user set ? where uid=?',[obj,uid],(err,result)=>{
     if(err)throw err;
     if(result.affectedRows>0){
-      res.send({code:200,msg:'update suc'});
+      res.send("1");
       return;
     }else{
-      res.send({code:401,msg:'update err'});
+      res.send("0");
       return;
     };
   });
@@ -80,7 +64,7 @@ router.get('/list',(req,res)=>{
   var count=obj.count;
   var pno=obj.pno;
 if(!count){
-  count=2;
+  count=5;
 };
 if(!pno){
   pno=1;
@@ -105,12 +89,15 @@ router.delete('/v1/delete/:uid',(req,res)=>{
     };
   });
 });
-//
+//queryuser
 router.get('/v1/queryuser/:uid',(req,res)=>{
   pool.query('select * from xz_user where uid=?',[req.params.uid],(err,result)=>{
     if(err)throw err;
-    console.log(result);
-    res.send(result);
+    if(result.length>0){ 
+      res.send(result);
+    }else{
+      res.send("0");
+    }
   });
 });
 module.exports=router;

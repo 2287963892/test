@@ -7,33 +7,71 @@
   <title>Document</title>
   <script>
   	function getUser(){
-
-		var xhr=new XMLHttpRequest();
+    var xhr=new XMLHttpRequest();
+    //BOM操作获取地址栏的参数
+    var urlParams=new URLSearchParams(location.search);
+    var $uid=urlParams.get("uid");
+    uid.value=$uid;
 	xhr.onreadystatechange=function(){
 	if(xhr.readyState==4 && xhr.status==200){
     var result=xhr.responseText;
-    result=JSON.parse(result);
-    uname.value=result[0].uname;
-    upwd.value=result[0].upwd;
-    email.value=result[0].email;
-    phone.value=result[0].phone;
-    user_name.value=result[0].user_name;
-    gender.value=result[0].gender;
+    if(result==0){
+      alert("用户不存在");
+    } else {    
+    result=JSON.parse(result)[0];
+    uname.value=result.uname;
+    upwd.value=result.upwd;
+    email.value=result.email;
+    phone.value=result.phone;
+    user_name.value=result.user_name;
+    result.gender==1?man.checked=true:result.gender==0?woman.checked=true:unknow.checked=true;
+       }
 		}
 	}
-	xhr.open("get",`/user/v1/queryuser/${uid.value}`,true);
+	xhr.open("get",`/user/v1/queryuser/${$uid}`,true);
 	xhr.send(null);
 }
-  </script>
+//修改
+  function getupdate(){
+    var xhr=new XMLHttpRequest();
+    var $uid=uid.value;
+    var $gender=null;
+    if(man.checked){
+      $gender="1"
+    }
+    if(woman.checked){
+      $gender="0"
+    }
+    console.log(xhr.readyState);
+	  xhr.onreadystatechange=function(){
+	if(xhr.readyState==4 && xhr.status==200){
+    var result=xhr.responseText;
+    if(result==1){
+      alert("修改成功");
+      location.href="/list.html";
+    }else{
+      alert("修改失败");
+      location.href="/list.html";
+    }
+  }
+}
+  xhr.open("put","/user/v1/updateuser",true);
+  var formdata=`uid=${$uid}&uname=${uname.value}&upwd=${upwd.value}&email=${email.value}&phone=${phone.value}&user_name=${user_name.value}&gender=${$gender}`;
+  xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+  xhr.send(formdata);
+}
+</script>
 </head>
-<body>
-  <input type="text" id="uid">
-  <button onclick="getUser()">查询</button>
-  <input type="text" id="uname">
-  <input type="text" id="upwd">
-  <input type="text" id="email">
-  <input type="text" id="phone">
-  <input type="text" id="user_name">
-  <input type="text" id="gender">
+<body onload="getUser()">
+  uid:<input type="text" id="uid" >
+  uname:<input type="text" id="uname">
+  upwd:<input type="text" id="upwd">
+  email:<input type="text" id="email">
+  phone:<input type="text" id="phone">
+  user_name:<input type="text" id="user_name"><br>
+  <label><input type="radio" id="man" name="sex" value="1" >男</label>
+  <label><input type="radio" name="sex" id="woman" value="0" >女</label>
+  <label><input type="radio" name="sex" id="unknow" value="null" >保密</label>
+  <button onclick="getupdate()">修改</button>
 </body>
 </html>

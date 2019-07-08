@@ -41,7 +41,7 @@ for (var i=0;i<result.length ;i++ )
 		<td>${result[i].avatar}</td>
 		<td>${result[i].user_name}</td>
 		<td>${result[i].gender==1?"男":result[i].gender==0?"女":"未知"}</td>
-		<th><a href="javascript:deluser(${result[i].uid})">删除</a><a href="">修改</a></th>
+		<th><a href="javascript:deluser(${result[i].uid})">删除</a><a href="queryUser.html?uid=${result[i].uid}">修改</a></th>
 	</tr>`;
 		}
 		htmlstr+=`</table>`;

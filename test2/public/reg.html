@@ -1,42 +1,96 @@
 <!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>注册</title>
-    <link href="css/zhuce.css" rel="stylesheet" type="text/css">
-    <link href="css/public.css" rel="stylesheet" type="text/css">
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script>
+      //用户名验证
+      var bool=true;
+  function  getuname(){
+    var xhr=new XMLHttpRequest();
+    xhr.onreadystatechange=function(){
+    if(xhr.readyState==4 && xhr.status==200){
+    var result=xhr.responseText;
+      if(result=="1"){
+          alert("用户名已存在");
+          bool=false;
+          return;
+      }
+    }
+  }
+    xhr.open("get",`/user/detail/${uname.value}`,true);
+    console.log(uname.value);
+    xhr.send(null);
+  };
+  //密码
+  function getupwd(){
+    if(upwd.value!==cpwd.value){
+        alert("两次输入密码不同");
+        bool=false;
+        return;
+    }
+  }
+  //注册
+  function getreg(){
+      if(bool==true){
+    var $uname=uname.value;
+    var $upwd=upwd.value;
+    var $phone=phone.value;
+    var $email=email.value;
+    var $user_name=user_name.value;
+    var $gender=null;
+    var arr=[$uname,$upwd,$phone,$email,$user_name,$gender];
+    for(var key in arr){
+        if(arr[key]==""){
+            alert("请输入完整");
+            return;
+        }
+    };
+    if(man.checked){
+      $gender="1"
+    }
+    if(woman.checked){
+      $gender="0"
+    }
+    var xhr=new XMLHttpRequest();
+    xhr.onreadystatechange=function(){
+    if(xhr.readyState==4 && xhr.status==200){
+    var result=xhr.responseText;
+      if(result=="1"){
+          alert("注册成功");
+          location.href="/list.html";
+      }else{
+          alert("注册失败");
+      }
+    }
+  }
+    xhr.open("post",`/user/reg`,true);
+    //请求主体
+    var formdata=`uname=${$uname}&upwd=${$upwd}&phone=${$phone}&email=${$email}&user_name=${$user_name}&gender=${$gender}`
+    //设置请求头信息
+    xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+    xhr.send(formdata);
+  }else{
+      alert("注册失败，输入值不符合格式");
+      location.href="/reg.html";
+  }
+}
+    
+  </script>
 </head>
 <body>
-
-<div class="center">
-    <div class="header clearFloat">
-        <img src="images/login/logo2.png" alt=""/>
-        <p >欢迎注册</p>
-    </div>
-    <div class="p1 ">
-        <div class="login1">
-            <div class="form1 clearFloat">
-                <form action="/user/reg" id="myform" method="post" onsubmit="return checkFields(this)">
-                    <div class="top1">
-                        <a href="" class="a1">新用户注册</a>
-                        <a href="login.html" class="a2">直接登录</a>
-                    </div>
-                    <div class="input1">
-                        <p>　用户名：<input type="text" id="txtName" placeholder="请输入用户名" name="uname"/> <div class="button2">用户名长度在6到9位之间</div></p>
-                        <p>登录密码：<input type="password" id="txtPwd1" placeholder="请输入密码" name="upwd"/></p>
-                        <p>确认密码：<input type="password" id="txtPwd2" placeholder="请再次输入密码" /></p>
-                        <p>　　邮箱：<input type="email" id="txtEmail" placeholder="请输入邮箱" name="email"/></p>
-                        <p>　手机号：<input type="tel" id="txtTel" placeholder="请输入手机号" name="phone"/></p>
-
-                    </div>
-                    <input type="submit" value="提交注册信息表" class="button1"/>
-                </form>
-                <script type="text/javascript" src="js/bdyz.js">
-
-                </script>
-            </div>
-        </div>
-    </div>
-</div>
+  用户:<input type="text" id="uname" onblur="getuname()"><br>
+  密码:<input type="text" id="upwd"><br>
+  确认密码:<input type="text" id="cpwd" onblur="getupwd()"><br>
+  手机:<input type="text" id="phone"><br>
+  邮箱:<input type="text" id="email"><br>
+  真实姓名:<input type="text" id="user_name"><br>
+  <label><input type="radio" id="man" name="sex" value="1" >男</label>
+  <label><input type="radio" name="sex" id="woman" value="0" >女</label>
+  <label><input type="radio" name="sex" id="unknow" value="null" >保密</label>
+ <button onclick="getreg()">注册</button>
 </body>
 </html>
+
