@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script>
+  	function getUser(){
+
+		var xhr=new XMLHttpRequest();
+	xhr.onreadystatechange=function(){
+	if(xhr.readyState==4 && xhr.status==200){
+    var result=xhr.responseText;
+    result=JSON.parse(result);
+    uname.value=result[0].uname;
+    upwd.value=result[0].upwd;
+    email.value=result[0].email;
+    phone.value=result[0].phone;
+    user_name.value=result[0].user_name;
+    gender.value=result[0].gender;
+		}
+	}
+	xhr.open("get",`/user/v1/queryuser/${uid.value}`,true);
+	xhr.send(null);
+}
+  </script>
+</head>
+<body>
+  <input type="text" id="uid">
+  <button onclick="getUser()">查询</button>
+  <input type="text" id="uname">
+  <input type="text" id="upwd">
+  <input type="text" id="email">
+  <input type="text" id="phone">
+  <input type="text" id="user_name">
+  <input type="text" id="gender">
+</body>
+</html>

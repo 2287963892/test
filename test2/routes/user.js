@@ -94,19 +94,23 @@ if(!pno){
   });
 });
 //delete
-router.get('/delete',(req,res)=>{
-  var uid=req.query.uid;
-  if(!uid){
-    res.send({code:401,msg:'uid required'});
-    return;
-  };
+router.delete('/v1/delete/:uid',(req,res)=>{
+  var uid=req.params.uid;
   pool.query('delete from xz_user where uid=?',[uid],(err,result)=>{
     if(err)throw err;
     if(result.affectedRows>0){
-      res.send({code:200,msg:'delete suc'});
+      res.send("1");
     }else {
-      res.send({code:401,msg:'delete err'});
+      res.send("0");
     };
+  });
+});
+//
+router.get('/v1/queryuser/:uid',(req,res)=>{
+  pool.query('select * from xz_user where uid=?',[req.params.uid],(err,result)=>{
+    if(err)throw err;
+    console.log(result);
+    res.send(result);
   });
 });
 module.exports=router;
