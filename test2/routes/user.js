@@ -4,19 +4,13 @@ var router=express.Router();
 //login
 router.get('/login/:uname&:upwd',(req,res)=>{
   var obj=req.praams;
-  for(var key in obj){
-    if(!obj[key]){
-      res.send({code:401,msg:key+' '+'required'});
-      return;
-    };
-  };
   pool.query('select uname,upwd from xz_user where uname=? and upwd=?',[obj.uname,obj.upwd],(err,result)=>{
     if(err)throw err;
     if(result.length>0){
-      res.send({code:200,msg:'login suc'});
+      res.send("1");
       return;
     }else {
-      res.send({code:401,msg:'uname or upwd err'});
+      res.send("0");
       return;
     };
   });
